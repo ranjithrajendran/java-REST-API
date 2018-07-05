@@ -20,38 +20,31 @@ public class rest_api extends HttpServlet {
        
     public rest_api() {
         super();
-        // TODO Auto-generated constructor stub
     }
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		Connection con=null;              
 		PrintWriter out=response.getWriter();
 		try      
 		{  
-		Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ranjith?useSSL=false", "root" , "qburst" );              
+			PreparedStatement pst = con.prepareStatement("select * from register;");
+			ResultSet rd=pst.executeQuery();
 
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ranjith?useSSL=false", "root" , "qburst" );              
-
-		PreparedStatement pst = con.prepareStatement("select * from register;");
-		ResultSet rd=pst.executeQuery();
-
-		while(rd.next())
-		{
-		                           
-			out.println(rd.getString("username"));
-			out.println(rd.getString("email"));
-			out.println(rd.getString("password"));
-		}
-		  
-
+			while(rd.next())
+			{                        
+				out.println(rd.getString("username"));
+				out.println(rd.getString("email"));
+				out.println(rd.getString("password"));
+			}
 		}
 		catch(Exception e)        
-		{          out.println(e);              
+		{         
+			out.println(e);              
 		}   
 
-}
+	}
 }
 
 		
